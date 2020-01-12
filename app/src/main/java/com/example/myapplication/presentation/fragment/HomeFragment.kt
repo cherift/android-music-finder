@@ -31,8 +31,12 @@ class HomeFragment : Fragment() {
 
         val m1 = Music("dlfsjdlfksf", "fsdfsf", "dsfsfsdf", "fsdfsdfsdf")
         val m2 = Music("dlfsjdlfksf", "fsdfsf", "dsfsfsdf", "fsdfsdfsdf")
+        val m3 = Music("dlfsjdlfksf", "fsdfsf", "dsfsfsdf", "fsdfsdfsdf")
+        val m4 = Music("dlfsjdlfksf", "fsdfsf", "dsfsfsdf", "fsdfsdfsdf")
+        val m5 = Music("dlfsjdlfksf", "fsdfsf", "dsfsfsdf", "fsdfsdfsdf")
+        val m6 = Music("dlfsjdlfksf", "fsdfsf", "dsfsfsdf", "fsdfsdfsdf")
 
-        var myDataset : List<Music> = listOf(m1, m2)
+        var myDataset : List<Music> = listOf(m1, m2, m3, m4, m5, m6)
 
         val viewManager = LinearLayoutManager(activity)
 
