@@ -1,7 +1,12 @@
 package com.example.myapplication.presentation
 
+import android.app.SearchManager
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.ContextMenu
+import android.view.Menu
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import com.example.myapplication.presentation.fragment.FavouriteFragment
@@ -43,8 +48,6 @@ class MainActivity : AppCompatActivity() {
      * Accourding to the navigation button selected, this method sets the appropriate fragment.
      */
     fun setupNavigationElements() {
-
-        println("Hello Openclassrooms students !----------------------------------------- au desssus")
 
         val  navigationButton : BottomNavigationView = findViewById(R.id.navigation)
 

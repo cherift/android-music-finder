@@ -1,3 +1,10 @@
 package com.example.myapplication.data.api.model
 
-class Music(val id: String, val author: String, val title: String, val imageURL: String)
+/**
+ * {
+        "title" : title,
+        "artist" : artist,
+        "image" : image
+    }
+ */
+data class Music(val title: String, val artist: String, val image: String)

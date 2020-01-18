@@ -3,12 +3,16 @@ package com.example.myapplication.presentation.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.data.api.model.Music
+import com.example.myapplication.data.api.model.MusicFinderResponse
 import com.example.myapplication.presentation.viewholder.MusicViewHolder
 
-class MusicAdapter(val myDataset: List<Music>) : RecyclerView.Adapter<MusicViewHolder>() {
+class MusicAdapter(val fragmentManager: FragmentManager) : RecyclerView.Adapter<MusicViewHolder>() {
+
+    var musics : List<Music> = listOf<Music>()
 
 
     /**
@@ -22,16 +26,21 @@ class MusicAdapter(val myDataset: List<Music>) : RecyclerView.Adapter<MusicViewH
         return MusicViewHolder(textView)
     }
 
+    fun bindViewModels(musicResponse: MusicFinderResponse){
+        musics = musicResponse.musics
+        notifyDataSetChanged()
+    }
+
     /**
      * Replace the contents of a view (invoked by the layout manager)
      */
     override fun onBindViewHolder(holder: MusicViewHolder, position: Int) {
-        val music : Music = myDataset[position]
-        holder.bind(music.author, music.title, music.imageURL)
+        val music : Music = musics[position]
+        holder.bind(music.artist, music.title, music.image)
     }
 
     /**
      * Return the size of your dataset (invoked by the layout manager)
      */
-    override fun getItemCount() = myDataset.size
+    override fun getItemCount() = musics.size
 }

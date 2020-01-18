@@ -1,23 +1,33 @@
 package com.example.myapplication.presentation.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
-import com.example.myapplication.data.api.model.Music
+import com.example.myapplication.data.api.model.MusicFinderResponse
 import com.example.myapplication.presentation.adapter.MusicAdapter
+import com.example.myapplication.presentation.presenter.MusicFinderContrat
+import com.example.myapplication.presentation.presenter.SearchMusicPresenter
+import java.util.*
 
 
 /**
  * Home Fragemnt class
  */
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), MusicFinderContrat.View {
+
+    var rootView : View? = null
+    var progressBar : ProgressBar? = null
+    var recyclerView : RecyclerView? = null
+    var musicAdapter: MusicAdapter? = null
 
     companion object {
+        val searchMusicPresenter: SearchMusicPresenter = SearchMusicPresenter()
+
         fun newInstance() : HomeFragment = HomeFragment()
     }
 
@@ -26,27 +36,81 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView : View = inflater.inflate(R.layout.frangment_menu, container, false)
-        val recyclerView : RecyclerView = rootView.findViewById(R.id.home_recyclerview)
+        super.onCreateView(inflater, container, savedInstanceState)
 
-        val m1 = Music("dlfsjdlfksf", "fsdfsf", "dsfsfsdf", "fsdfsdfsdf")
-        val m2 = Music("dlfsjdlfksf", "fsdfsf", "dsfsfsdf", "fsdfsdfsdf")
-        val m3 = Music("dlfsjdlfksf", "fsdfsf", "dsfsfsdf", "fsdfsdfsdf")
-        val m4 = Music("dlfsjdlfksf", "fsdfsf", "dsfsfsdf", "fsdfsdfsdf")
-        val m5 = Music("dlfsjdlfksf", "fsdfsf", "dsfsfsdf", "fsdfsdfsdf")
-        val m6 = Music("dlfsjdlfksf", "fsdfsf", "dsfsfsdf", "fsdfsdfsdf")
+        rootView = inflater.inflate(R.layout.frangment_menu, container, false)
 
-        var myDataset : List<Music> = listOf(m1, m2, m3, m4, m5, m6)
+        progressBar = rootView!!.findViewById(R.id.progress_bar)
 
-        val viewManager = LinearLayoutManager(activity)
-
-        recyclerView.layoutManager = viewManager
-
-        val musicAdapter: MusicAdapter = MusicAdapter(myDataset)
-
-        recyclerView.adapter = musicAdapter
+        setupRecyclerView()
 
         return rootView
+    }
+
+    fun setupRecyclerView() {
+        recyclerView = rootView!!.findViewById(R.id.home_recyclerview)
+        musicAdapter = MusicAdapter(fragmentManager!!)
+        recyclerView!!.adapter = musicAdapter
+        val viewManager = LinearLayoutManager(activity)
+        recyclerView!!.layoutManager = viewManager
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        searchMusicPresenter.attachView(this)
+
+        val searchView = rootView!!.findViewById(R.id.search_view) as androidx.appcompat.widget.SearchView
+
+        searchView.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+
+            private var timer : Timer = Timer()
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                if (query.length === 0) {
+                    searchMusicPresenter.cancelSubscription()
+                    progressBar!!.visibility = View.GONE
+                }
+                else {
+
+                    progressBar!!.visibility = View.VISIBLE
+
+                    timer.cancel()
+                    timer = Timer()
+
+                    var sleep : Long = 350
+
+                    timer.schedule(object : TimerTask() {
+
+                        override fun run() {
+                            searchMusicPresenter.searchMusic(query)
+                        }
+
+                    }, sleep)
+                }
+                searchView.clearFocus()
+                return true
+            }
+
+        })
+    }
+
+    override fun displayMusicFinded(musicResponse : MusicFinderResponse) {
+        progressBar!!.visibility = View.GONE
+        musicAdapter!!.bindViewModels(musicResponse)
+    }
+
+    override fun addMusicToFavorite() {
+
+    }
+
+    override fun listenToMusic() {
+
     }
 
 }
