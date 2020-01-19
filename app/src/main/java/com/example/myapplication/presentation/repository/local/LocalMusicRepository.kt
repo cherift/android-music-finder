@@ -2,19 +2,25 @@ package com.example.myapplication.presentation.repository.local
 
 import com.example.myapplication.data.dao.MusicDao
 import com.example.myapplication.data.entity.MusicEntity
+import io.reactivex.Completable
+import io.reactivex.Flowable
 
 class LocalMusicRepository(private val musicDao: MusicDao) {
 
-    suspend fun insert(musicEntity: MusicEntity){
+    fun insert(musicEntity: MusicEntity) : Completable = run {
         musicDao.insert(musicEntity)
     }
 
-    suspend fun delete(musicEntity: MusicEntity){
+    fun delete(musicEntity: MusicEntity) : Completable = run {
         musicDao.delete(musicEntity)
     }
 
-    suspend fun getMusic(id : String) : MusicEntity {
+    fun getMusic(id : String) : MusicEntity {
         return musicDao.findMusicById(id)
+    }
+
+    fun findAllFavouriteMusics() : Flowable<List<MusicEntity>> {
+        return musicDao.findAllFavouriteMusics()
     }
 
 }

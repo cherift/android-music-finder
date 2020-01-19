@@ -23,6 +23,8 @@ interface MusicFinderContrat {
         fun addOrRemoveMusicFavorite(musicEntity: MusicEntity)
 
         fun listenToMusic()
+
+        fun displayFavouriteMusic(musicEntities : List<MusicEntity>)
     }
 
 }

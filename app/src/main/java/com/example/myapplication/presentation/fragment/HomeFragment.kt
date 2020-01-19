@@ -18,8 +18,6 @@ import com.example.myapplication.presentation.presenter.MusicFinderContrat
 import com.example.myapplication.presentation.presenter.SearchMusicPresenter
 import com.example.myapplication.presentation.repository.local.LocalMusicRepository
 import java.util.*
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
 
 
 /**
@@ -32,7 +30,7 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
     var recyclerView : RecyclerView? = null
     var musicAdapter: MusicAdapter? = null
     var changeLayoutManager : ImageButton? = null
-    var localMusicRepository : LocalMusicRepository? = null
+    var musicDao: MusicDao? = null
 
 
     companion object {
@@ -57,8 +55,7 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
         setupRecyclerView()
 
         /*initialize local database repository*/
-        val musicDao: MusicDao = MusicDatabase.getInstance(activity!!).musicDao()
-        localMusicRepository = LocalMusicRepository(musicDao)
+        musicDao = MusicDatabase.getInstance(activity!!.application).musicDao()
 
         return rootView
     }
@@ -102,7 +99,7 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
-                if (query.length === 0) {
+                if (query.isEmpty()) {
                     searchMusicPresenter.cancelSubscription()
                     progressBar!!.visibility = View.GONE
                 }
@@ -137,14 +134,16 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
 
 
     override fun addOrRemoveMusicFavorite(musicEntity: MusicEntity) {
-        lifecycleScope.launch {
-            localMusicRepository!!.insert(musicEntity)
-        }
+        searchMusicPresenter.addMusicToFavorite(musicDao!!, musicEntity)
     }
 
 
     override fun listenToMusic() {
 
+    }
+
+    override fun displayFavouriteMusic(musicEntities : List<MusicEntity>){
+        
     }
 
 }

@@ -8,7 +8,7 @@ import com.example.myapplication.data.dao.MusicDao
 import com.example.myapplication.data.entity.MusicEntity
 
 
-@Database(entities = arrayOf(MusicEntity::class), version = 2, exportSchema = false)
+@Database(entities = [(MusicEntity::class)], version = 2, exportSchema = false)
 abstract class MusicDatabase : RoomDatabase() {
 
     abstract fun musicDao(): MusicDao
@@ -26,7 +26,7 @@ abstract class MusicDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     MusicDatabase::class.java,
-                    "database.db"
+                    "database"
                 ).allowMainThreadQueries().build()
                 INSTANCE = instance
                 return instance

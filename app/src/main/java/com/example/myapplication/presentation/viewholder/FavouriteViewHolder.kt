@@ -10,7 +10,7 @@ import com.example.myapplication.R
 import com.example.myapplication.data.entity.MusicEntity
 import com.example.myapplication.presentation.display.MusicActionInterface
 
-class MusicViewHolder(val myView: View, musicAction: MusicActionInterface) : RecyclerView.ViewHolder(myView) {
+class FavouriteViewHolder(val myView: View, musicAction: MusicActionInterface) : RecyclerView.ViewHolder(myView) {
 
     var author: TextView? = null
     var title: TextView? = null
@@ -22,10 +22,10 @@ class MusicViewHolder(val myView: View, musicAction: MusicActionInterface) : Rec
      * initalizes card view element
      */
     init {
-        author = myView.findViewById(R.id.auhtor_textview)
-        title = myView.findViewById(R.id.title_textview)
-        image = myView.findViewById(R.id.icon_imageview)
-        imageInfo = myView.findViewById(R.id.info_button)
+        author = myView.findViewById(R.id.fav_auhtor_textview)
+        title = myView.findViewById(R.id.fav_title_textview)
+        image = myView.findViewById(R.id.fav_icon_imageview)
+        imageInfo = myView.findViewById(R.id.fav_info_button)
 
         imageInfo!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
