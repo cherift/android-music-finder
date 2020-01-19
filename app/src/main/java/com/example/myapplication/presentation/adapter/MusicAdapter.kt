@@ -8,9 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.data.api.model.Music
 import com.example.myapplication.data.api.model.MusicFinderResponse
+import com.example.myapplication.data.entity.MusicEntity
+import com.example.myapplication.presentation.display.MusicActionInterface
+import com.example.myapplication.presentation.fragment.HomeFragment
 import com.example.myapplication.presentation.viewholder.MusicViewHolder
 
-class MusicAdapter(val fragmentManager: FragmentManager) : RecyclerView.Adapter<MusicViewHolder>() {
+class MusicAdapter(val fragmentManager: HomeFragment) : RecyclerView.Adapter<MusicViewHolder>(),
+    MusicActionInterface {
 
     var musics : List<Music> = listOf<Music>()
 
@@ -23,12 +27,16 @@ class MusicAdapter(val fragmentManager: FragmentManager) : RecyclerView.Adapter<
 
         val textView = LayoutInflater.from(parent.context)
                                     .inflate(R.layout.music_card, parent, false) as View
-        return MusicViewHolder(textView)
+        return MusicViewHolder(textView, this)
     }
 
     fun bindViewModels(musicResponse: MusicFinderResponse){
         musics = musicResponse.musics
         notifyDataSetChanged()
+    }
+
+    override fun onFavoriteToggle(musicEntity: MusicEntity){
+        fragmentManager.addOrRemoveMusicFavorite(musicEntity)
     }
 
     /**

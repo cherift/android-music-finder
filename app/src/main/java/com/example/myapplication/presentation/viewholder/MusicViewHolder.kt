@@ -7,13 +7,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
+import com.example.myapplication.data.entity.MusicEntity
+import com.example.myapplication.presentation.display.MusicActionInterface
 
-class MusicViewHolder(val myView: View) : RecyclerView.ViewHolder(myView) {
+class MusicViewHolder(val myView: View, musicAction: MusicActionInterface) : RecyclerView.ViewHolder(myView) {
 
     var author: TextView? = null
     var title: TextView? = null
     var image: ImageView? = null
-    var imageButton: ImageButton? = null
+    var imageInfo: ImageButton? = null
 
 
     /**
@@ -23,10 +25,22 @@ class MusicViewHolder(val myView: View) : RecyclerView.ViewHolder(myView) {
         author = myView.findViewById(R.id.auhtor_textview)
         title = myView.findViewById(R.id.title_textview)
         image = myView.findViewById(R.id.icon_imageview)
+        imageInfo = myView.findViewById(R.id.info_button)
 
-        imageButton?.setOnClickListener(object : View.OnClickListener {
+        imageInfo!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
+                val tag = imageInfo!!.getTag()
 
+                /**
+                 * An id of a music entity is the concatenation of the author name, the title
+                 *
+                 * With that we can find rapidly the music entity in every fragment.
+                 */
+                val id: String = author!!.text.toString() + title!!.text.toString()
+
+                val musicEntity = MusicEntity(id, author!!.text.toString(), title!!.text.toString(), image!!.toString())
+
+                musicAction.onFavoriteToggle(musicEntity)
             }
         })
     }

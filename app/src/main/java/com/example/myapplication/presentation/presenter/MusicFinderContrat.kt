@@ -1,6 +1,7 @@
 package com.example.myapplication.presentation.presenter
 
 import com.example.myapplication.data.api.model.MusicFinderResponse
+import com.example.myapplication.data.entity.MusicEntity
 
 
 interface MusicFinderContrat {
@@ -19,7 +20,7 @@ interface MusicFinderContrat {
 
         fun displayMusicFinded(musicResponse : MusicFinderResponse)
 
-        fun addMusicToFavorite()
+        fun addOrRemoveMusicFavorite(musicEntity: MusicEntity)
 
         fun listenToMusic()
     }

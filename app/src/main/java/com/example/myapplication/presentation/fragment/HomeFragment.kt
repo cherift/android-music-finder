@@ -5,16 +5,21 @@ import android.view.*
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.data.api.model.MusicFinderResponse
+import com.example.myapplication.data.dao.MusicDao
+import com.example.myapplication.data.database.MusicDatabase
+import com.example.myapplication.data.entity.MusicEntity
 import com.example.myapplication.presentation.adapter.MusicAdapter
 import com.example.myapplication.presentation.presenter.MusicFinderContrat
 import com.example.myapplication.presentation.presenter.SearchMusicPresenter
+import com.example.myapplication.presentation.repository.local.LocalMusicRepository
 import java.util.*
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 
 /**
@@ -27,6 +32,8 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
     var recyclerView : RecyclerView? = null
     var musicAdapter: MusicAdapter? = null
     var changeLayoutManager : ImageButton? = null
+    var localMusicRepository : LocalMusicRepository? = null
+
 
     companion object {
         val searchMusicPresenter: SearchMusicPresenter = SearchMusicPresenter()
@@ -49,12 +56,16 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
 
         setupRecyclerView()
 
+        /*initialize local database repository*/
+        val musicDao: MusicDao = MusicDatabase.getInstance(activity!!).musicDao()
+        localMusicRepository = LocalMusicRepository(musicDao)
+
         return rootView
     }
 
     fun setupRecyclerView() {
         recyclerView = rootView!!.findViewById(R.id.home_recyclerview)
-        musicAdapter = MusicAdapter(fragmentManager!!)
+        musicAdapter = MusicAdapter(this)
         recyclerView!!.adapter = musicAdapter
         val viewManager = LinearLayoutManager(activity)
         recyclerView!!.layoutManager = viewManager
@@ -124,9 +135,13 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
         musicAdapter!!.bindViewModels(musicResponse)
     }
 
-    override fun addMusicToFavorite() {
 
+    override fun addOrRemoveMusicFavorite(musicEntity: MusicEntity) {
+        lifecycleScope.launch {
+            localMusicRepository!!.insert(musicEntity)
+        }
     }
+
 
     override fun listenToMusic() {
 

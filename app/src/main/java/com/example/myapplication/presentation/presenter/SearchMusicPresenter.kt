@@ -1,12 +1,11 @@
 package com.example.myapplication.presentation.presenter
 
-import com.example.myapplication.presentation.repository.MusicFinderDataRepository
+import com.example.myapplication.presentation.repository.remote.MusicFinderDataRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import com.example.myapplication.data.api.model.MusicFinderResponse
-
 class SearchMusicPresenter : MusicFinderContrat.Presenter {
 
     var view : MusicFinderContrat.View? = null
@@ -37,7 +36,6 @@ class SearchMusicPresenter : MusicFinderContrat.Presenter {
             })
         )
     }
-
 
     override fun attachView(view: MusicFinderContrat.View ) {
         this.view = view
