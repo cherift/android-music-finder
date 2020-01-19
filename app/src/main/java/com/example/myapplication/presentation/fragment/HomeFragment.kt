@@ -2,9 +2,11 @@ package com.example.myapplication.presentation.fragment
 
 import android.os.Bundle
 import android.view.*
+import android.widget.ImageButton
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
@@ -24,6 +26,7 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
     var progressBar : ProgressBar? = null
     var recyclerView : RecyclerView? = null
     var musicAdapter: MusicAdapter? = null
+    var changeLayoutManager : ImageButton? = null
 
     companion object {
         val searchMusicPresenter: SearchMusicPresenter = SearchMusicPresenter()
@@ -42,6 +45,8 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
 
         progressBar = rootView!!.findViewById(R.id.progress_bar)
 
+        changeLayoutManager = rootView!!.findViewById(R.id.change_layout_button)
+
         setupRecyclerView()
 
         return rootView
@@ -53,6 +58,20 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
         recyclerView!!.adapter = musicAdapter
         val viewManager = LinearLayoutManager(activity)
         recyclerView!!.layoutManager = viewManager
+
+        changeLayoutManager = rootView!!.findViewById(R.id.change_layout_button)
+
+        changeLayoutManager!!.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                if (recyclerView!!.layoutManager is GridLayoutManager) {
+                    recyclerView!!.layoutManager = LinearLayoutManager(activity)
+                    changeLayoutManager!!.setImageResource(R.drawable.grid_view)
+                } else {
+                    recyclerView!!.layoutManager = GridLayoutManager(activity, 2)
+                    changeLayoutManager!!.setImageResource(R.drawable.no_grid_view)
+                }
+            }
+        })
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

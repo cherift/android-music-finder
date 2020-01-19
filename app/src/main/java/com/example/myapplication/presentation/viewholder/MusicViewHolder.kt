@@ -23,11 +23,10 @@ class MusicViewHolder(val myView: View) : RecyclerView.ViewHolder(myView) {
         author = myView.findViewById(R.id.auhtor_textview)
         title = myView.findViewById(R.id.title_textview)
         image = myView.findViewById(R.id.icon_imageview)
-        imageButton = myView.findViewById(R.id.info_button)
 
         imageButton?.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                TODO("not implemented")
+
             }
         })
     }

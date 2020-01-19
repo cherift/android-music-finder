@@ -20,6 +20,13 @@
             android:clickable="true"
             app:iconifiedByDefault="false" />
 
+        <ImageButton
+            android:id="@+id/change_layout_button"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/grid_view"
+            android:layout_gravity="right"/>
+
     </androidx.cardview.widget.CardView>
 
 
