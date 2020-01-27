@@ -1,5 +1,6 @@
 package com.example.myapplication.presentation.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageButton
@@ -17,6 +18,7 @@ import com.example.myapplication.presentation.adapter.MusicAdapter
 import com.example.myapplication.presentation.presenter.MusicFinderContrat
 import com.example.myapplication.presentation.presenter.SearchMusicPresenter
 import com.example.myapplication.presentation.repository.local.LocalMusicRepository
+import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
 
@@ -133,8 +135,16 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
     }
 
 
+    @SuppressLint("StringFormatMatches")
     override fun addOrRemoveMusicFavorite(musicEntity: MusicEntity) {
         searchMusicPresenter.addMusicToFavorite(musicDao!!, musicEntity)
+
+        // Show music added in favourite message
+        Snackbar.make(
+            recyclerView!!,
+            resources.getString(R.string.music_added, musicEntity.artist, musicEntity.title),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
 
