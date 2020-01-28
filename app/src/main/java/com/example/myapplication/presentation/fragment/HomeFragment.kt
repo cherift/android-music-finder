@@ -135,14 +135,13 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
     }
 
 
-    @SuppressLint("StringFormatMatches")
     override fun addOrRemoveMusicFavorite(musicEntity: MusicEntity) {
         searchMusicPresenter.addMusicToFavorite(musicDao!!, musicEntity)
 
         // Show music added in favourite message
         Snackbar.make(
             recyclerView!!,
-            resources.getString(R.string.music_added, musicEntity.artist, musicEntity.title),
+            resources.getString(R.string.music_added, musicEntity.title, musicEntity.artist),
             Snackbar.LENGTH_SHORT
         ).show()
     }

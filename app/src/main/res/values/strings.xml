@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">My Application</string>
-    <string name="music_added" formatted="false">%1$s - %1$s has been added to favourite.</string>
+    <string name="music_added" formatted="false">%1$s - %2$s has been added to your favourites.</string>
+    <string name="music_removed" formatted="false">%1$s - %2$s has been removed from your favourites.</string>
 </resources>

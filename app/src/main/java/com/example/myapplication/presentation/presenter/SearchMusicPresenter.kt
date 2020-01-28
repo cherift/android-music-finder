@@ -81,6 +81,7 @@ class SearchMusicPresenter : MusicFinderContrat.Presenter {
                 }
 
                 override fun onError(e: Throwable) {
+                    print("deleting music from database failed")
                     println(e.message)
                 }
             })

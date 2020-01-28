@@ -1,5 +1,6 @@
 package com.example.myapplication.presentation.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import com.example.myapplication.presentation.adapter.MusicAdapter
 import com.example.myapplication.presentation.presenter.MusicFinderContrat
 import com.example.myapplication.presentation.presenter.SearchMusicPresenter
 import com.example.myapplication.presentation.repository.local.LocalMusicRepository
+import com.google.android.material.snackbar.Snackbar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -89,6 +91,13 @@ class FavouriteFragment : Fragment(), MusicFinderContrat.View{
 
     override fun addOrRemoveMusicFavorite(musicEntity: MusicEntity) {
         searchMusicPresenter.removeMusicFromFavorite(musicDao!!, musicEntity)
+
+        // Show music removed from favourite message
+        Snackbar.make(
+            recyclerView!!,
+            resources.getString(R.string.music_removed, musicEntity.artist, musicEntity.title),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
 
