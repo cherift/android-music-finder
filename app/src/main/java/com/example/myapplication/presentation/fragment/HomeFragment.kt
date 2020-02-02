@@ -1,6 +1,5 @@
 package com.example.myapplication.presentation.fragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageButton
@@ -17,7 +16,6 @@ import com.example.myapplication.data.entity.MusicEntity
 import com.example.myapplication.presentation.adapter.MusicAdapter
 import com.example.myapplication.presentation.presenter.MusicFinderContrat
 import com.example.myapplication.presentation.presenter.SearchMusicPresenter
-import com.example.myapplication.presentation.repository.local.LocalMusicRepository
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
@@ -33,7 +31,6 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
     var musicAdapter: MusicAdapter? = null
     var changeLayoutManager : ImageButton? = null
     var musicDao: MusicDao? = null
-
 
     companion object {
         val searchMusicPresenter: SearchMusicPresenter = SearchMusicPresenter()
@@ -141,7 +138,7 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
         // Show music added in favourite message
         Snackbar.make(
             recyclerView!!,
-            resources.getString(R.string.music_added, musicEntity.title, musicEntity.artist),
+            resources.getString(R.string.music_added, musicEntity.artist, musicEntity.title),
             Snackbar.LENGTH_SHORT
         ).show()
     }

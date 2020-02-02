@@ -6,25 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
-import com.example.myapplication.data.api.model.Music
 import com.example.myapplication.data.api.model.MusicFinderResponse
 import com.example.myapplication.data.dao.MusicDao
 import com.example.myapplication.data.database.MusicDatabase
 import com.example.myapplication.data.entity.MusicEntity
 import com.example.myapplication.presentation.adapter.FavouriteAdapter
-import com.example.myapplication.presentation.adapter.MusicAdapter
 import com.example.myapplication.presentation.presenter.MusicFinderContrat
 import com.example.myapplication.presentation.presenter.SearchMusicPresenter
-import com.example.myapplication.presentation.repository.local.LocalMusicRepository
 import com.google.android.material.snackbar.Snackbar
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subscribers.ResourceSubscriber
 
 
 

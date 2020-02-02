@@ -1,6 +1,5 @@
 package com.example.myapplication.presentation.presenter
 
-import com.example.myapplication.data.api.model.Music
 import com.example.myapplication.presentation.repository.remote.MusicFinderDataRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -9,7 +8,6 @@ import io.reactivex.schedulers.Schedulers
 import com.example.myapplication.data.api.model.MusicFinderResponse
 import com.example.myapplication.data.dao.MusicDao
 import com.example.myapplication.data.entity.MusicEntity
-import com.example.myapplication.presentation.repository.local.LocalMusicRepository
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.subscribers.ResourceSubscriber
 
