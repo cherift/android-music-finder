@@ -35,7 +35,16 @@ class MusicAdapter(val fragmentManager: HomeFragment) : RecyclerView.Adapter<Mus
         notifyDataSetChanged()
     }
 
-    override fun onFavoriteToggle(musicEntity: MusicEntity){
+    override fun onFavoriteToggle(position: Int){
+        val music: Music = musics[position]
+
+        val musicEntity: MusicEntity = MusicEntity(
+            music.artist + music.title,
+            music.title,
+            music.artist,
+            music.image
+        )
+
         fragmentManager.addOrRemoveMusicFavorite(musicEntity)
     }
 

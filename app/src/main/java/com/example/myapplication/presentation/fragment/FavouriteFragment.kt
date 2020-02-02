@@ -37,8 +37,6 @@ class FavouriteFragment : Fragment(), MusicFinderContrat.View{
     var rootView : View? = null
     var recyclerView : RecyclerView? = null
     var favouriteAdapter: FavouriteAdapter? = null
-    var localMusicRepository: LocalMusicRepository? = null
-    var favouriteMusics: MusicFinderResponse? = null
     var musicDao:MusicDao? = null
 
     companion object {

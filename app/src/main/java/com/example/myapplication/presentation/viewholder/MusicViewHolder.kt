@@ -29,16 +29,11 @@ class MusicViewHolder(val myView: View, musicAction: MusicActionInterface) : Rec
 
         imageInfo!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                /**
-                 * An id of a music entity is the concatenation of the author name, the title
-                 *
-                 * With that we can find rapidly the music entity in every fragment.
-                 */
-                val id: String = author!!.text.toString() + title!!.text.toString()
+                val position : Int = adapterPosition
 
-                val musicEntity = MusicEntity(id, author!!.text.toString(), title!!.text.toString(), image!!.toString())
-
-                musicAction.onFavoriteToggle(musicEntity)
+                if (position != RecyclerView.NO_POSITION) {
+                    musicAction.onFavoriteToggle(position)
+                }
             }
         })
     }

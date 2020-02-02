@@ -31,7 +31,7 @@ class FavouriteAdapter(val fragmentManager: FavouriteFragment) : RecyclerView.Ad
 
 
     fun bindViewModels(musicEntities : List<MusicEntity>){
-
+        musics.clear()
 
         for(music in musicEntities){
             musics.add(Music(music.title, music.artist, music.image))
@@ -41,7 +41,20 @@ class FavouriteAdapter(val fragmentManager: FavouriteFragment) : RecyclerView.Ad
     }
 
 
-    override fun onFavoriteToggle(musicEntity: MusicEntity){
+    override fun onFavoriteToggle(position: Int){
+        val music: Music = musics[position]
+
+        val musicEntity: MusicEntity = MusicEntity(
+            music.artist + music.title,
+            music.title,
+            music.artist,
+            music.image
+        )
+
+        musics.removeAt(position)
+
+        notifyItemRemoved(position)
+
         fragmentManager.addOrRemoveMusicFavorite(musicEntity)
     }
 

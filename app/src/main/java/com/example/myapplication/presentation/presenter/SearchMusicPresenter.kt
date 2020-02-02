@@ -77,11 +77,11 @@ class SearchMusicPresenter : MusicFinderContrat.Presenter {
             .subscribeWith(object : DisposableCompletableObserver() {
 
                 override fun onComplete() {
-                    print("deleting music from database")
+                    println("deleting music from database")
                 }
 
                 override fun onError(e: Throwable) {
-                    print("deleting music from database failed")
+                    println("deleting music from database failed")
                     println(e.message)
                 }
             })
