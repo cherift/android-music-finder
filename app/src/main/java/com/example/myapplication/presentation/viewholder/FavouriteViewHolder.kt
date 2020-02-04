@@ -1,5 +1,6 @@
 package com.example.myapplication.presentation.viewholder
 
+import android.media.Image
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -7,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
-import com.example.myapplication.data.entity.MusicEntity
 import com.example.myapplication.presentation.display.MusicActionInterface
 
 class FavouriteViewHolder(val myView: View, musicAction: MusicActionInterface) : RecyclerView.ViewHolder(myView) {
@@ -16,6 +16,7 @@ class FavouriteViewHolder(val myView: View, musicAction: MusicActionInterface) :
     var title: TextView? = null
     var image: ImageView? = null
     var imageInfo: ImageButton? = null
+    var imageButton: ImageButton? = null
 
 
     /**
@@ -26,6 +27,7 @@ class FavouriteViewHolder(val myView: View, musicAction: MusicActionInterface) :
         title = myView.findViewById(R.id.fav_title_textview)
         image = myView.findViewById(R.id.fav_icon_imageview)
         imageInfo = myView.findViewById(R.id.fav_info_button)
+        imageButton = myView.findViewById(R.id.fav_image_button)
 
         imageInfo!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
@@ -33,6 +35,16 @@ class FavouriteViewHolder(val myView: View, musicAction: MusicActionInterface) :
 
                 if (position != RecyclerView.NO_POSITION) {
                     musicAction.onFavoriteToggle(position)
+                }
+            }
+        })
+
+        imageButton!!.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                val position : Int = adapterPosition
+
+                if (position != RecyclerView.NO_POSITION) {
+                    musicAction.listenMusic(position)
                 }
             }
         })

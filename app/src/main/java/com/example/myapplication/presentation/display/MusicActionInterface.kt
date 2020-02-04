@@ -4,4 +4,6 @@ interface MusicActionInterface {
 
     fun onFavoriteToggle(position: Int)
 
+    fun listenMusic(position: Int)
+
 }

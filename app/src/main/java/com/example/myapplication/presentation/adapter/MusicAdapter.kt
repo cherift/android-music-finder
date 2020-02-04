@@ -35,6 +35,12 @@ class MusicAdapter(val fragmentManager: HomeFragment) : RecyclerView.Adapter<Mus
         notifyDataSetChanged()
     }
 
+
+    /**
+     * Deletes the music at the position passed as parameter
+     *
+     * @param position: the position of the music clicked in the list view
+     */
     override fun onFavoriteToggle(position: Int){
         val music: Music = musics[position]
 
@@ -46,6 +52,15 @@ class MusicAdapter(val fragmentManager: HomeFragment) : RecyclerView.Adapter<Mus
         )
 
         fragmentManager.addOrRemoveMusicFavorite(musicEntity)
+    }
+
+    /**
+     * Listen to the music at the position passed as parameter
+     *
+     * @param position: the position of the music clicked in the list view
+     */
+    override fun listenMusic(position: Int){
+        fragmentManager.listenToMusic()
     }
 
     /**

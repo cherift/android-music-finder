@@ -1,5 +1,7 @@
 package com.example.myapplication.presentation.fragment
 
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageButton
@@ -17,6 +19,7 @@ import com.example.myapplication.presentation.adapter.MusicAdapter
 import com.example.myapplication.presentation.presenter.MusicFinderContrat
 import com.example.myapplication.presentation.presenter.SearchMusicPresenter
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import java.util.*
 
 
@@ -31,6 +34,7 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
     var musicAdapter: MusicAdapter? = null
     var changeLayoutManager : ImageButton? = null
     var musicDao: MusicDao? = null
+    val MUSICS_PREFERENCES_KEY: String = "MUSICS_PREFERENCES_KEY"
 
     companion object {
         val searchMusicPresenter: SearchMusicPresenter = SearchMusicPresenter()
@@ -59,7 +63,7 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
         return rootView
     }
 
-    fun setupRecyclerView() {
+    private fun setupRecyclerView() {
         recyclerView = rootView!!.findViewById(R.id.home_recyclerview)
         musicAdapter = MusicAdapter(this)
         recyclerView!!.adapter = musicAdapter
@@ -80,6 +84,7 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
             }
         })
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -124,9 +129,45 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
             }
 
         })
+
+        // Loads data in the shared preferences and displays it
+        val sharedPreferences: SharedPreferences = activity!!.getSharedPreferences("shared preferences", MODE_PRIVATE)
+        val gson: Gson = Gson()
+        var result : String? = sharedPreferences.getString(MUSICS_PREFERENCES_KEY, null)
+
+        var musicResponse: MusicFinderResponse? = gson.fromJson(result, MusicFinderResponse::class.java)
+
+        musicResponse?.let { musicAdapter!!.bindViewModels(it) }
     }
 
+
+    /**
+     * Saves musics founded in shared date preferences
+     *
+     * @param musicResponse: the list of musics founded
+     */
+    private fun saveData(musicResponse : MusicFinderResponse){
+        val sharedPreferences: SharedPreferences = activity!!.getSharedPreferences("shared preferences", MODE_PRIVATE)
+        val editor = sharedPreferences.edit() as SharedPreferences.Editor
+
+        val gson: Gson = Gson()
+        var result : String? = gson.toJson(musicResponse)
+
+        editor.putString(MUSICS_PREFERENCES_KEY, result)
+        editor.apply()
+    }
+
+
+    /**
+     * displays the musics founded in the list veiw
+     *
+     * @param musicResponse: the list of musics founded
+     */
     override fun displayMusicFinded(musicResponse : MusicFinderResponse) {
+        /*save musicResponse founded in musicSaved */
+        saveData(musicResponse)
+
+        /*displays the result in the list view*/
         progressBar!!.visibility = View.GONE
         musicAdapter!!.bindViewModels(musicResponse)
     }

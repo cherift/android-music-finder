@@ -92,7 +92,10 @@ class FavouriteFragment : Fragment(), MusicFinderContrat.View{
 
 
     override fun listenToMusic() {
-
+        activity!!.supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, MusicPlayerFragment.newInstance())
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun displayFavouriteMusic(musicEntities : List<MusicEntity>){
