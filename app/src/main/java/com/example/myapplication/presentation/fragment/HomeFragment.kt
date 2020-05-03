@@ -60,6 +60,9 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
 
         changeLayoutManager = rootView!!.findViewById(R.id.change_layout_button)
 
+        emptyTextView?.visibility = View.VISIBLE
+        recyclerView?.visibility = View.GONE
+
         setupRecyclerView()
 
         /*initialize local database repository*/
@@ -142,13 +145,10 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
 
         var musicResponse: MusicFinderResponse? = gson.fromJson(result, MusicFinderResponse::class.java)
 
-        emptyTextView?.visibility = View.VISIBLE
-        recyclerView?.visibility = View.GONE
-
         musicResponse?.let {
             musicAdapter!!.bindViewModels(it)
-            recyclerView?.visibility = View.VISIBLE
             emptyTextView?.visibility = View.GONE
+            recyclerView?.visibility = View.VISIBLE
         }
     }
 
