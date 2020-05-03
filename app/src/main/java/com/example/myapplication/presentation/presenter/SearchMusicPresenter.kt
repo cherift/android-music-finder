@@ -99,7 +99,7 @@ class SearchMusicPresenter : MusicFinderContrat.Presenter {
             .subscribeWith(object : ResourceSubscriber<List<MusicEntity>>() {
 
                 override fun onNext(musics : List<MusicEntity>) {
-                    view?.displayFavouriteMusic(musics  )
+                    view?.displayFavouriteMusic(musics)
                 }
 
                 override fun onComplete() {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +30,7 @@ class FavouriteFragment : Fragment(), MusicFinderContrat.View{
     var rootView : View? = null
     var recyclerView : RecyclerView? = null
     var favouriteAdapter: FavouriteAdapter? = null
+    var emptyTextView : TextView? = null
     var musicDao:MusicDao? = null
 
     companion object {
@@ -45,6 +47,8 @@ class FavouriteFragment : Fragment(), MusicFinderContrat.View{
         super.onCreateView(inflater, container, savedInstanceState)
 
         rootView = inflater.inflate(R.layout.fragment_favourite, container, false)
+
+        emptyTextView = rootView!!.findViewById(R.id.empty)
 
         /*initialize local database repository*/
         musicDao = MusicDatabase.getInstance(activity!!.application).musicDao()
@@ -99,6 +103,14 @@ class FavouriteFragment : Fragment(), MusicFinderContrat.View{
     }
 
     override fun displayFavouriteMusic(musicEntities : List<MusicEntity>){
-        favouriteAdapter!!.bindViewModels(musicEntities)
+        if (musicEntities.isEmpty()) {
+            emptyTextView?.visibility = View.VISIBLE
+            recyclerView?.visibility = View.GONE
+        }
+        else{
+            emptyTextView?.visibility = View.GONE
+            recyclerView?.visibility = View.VISIBLE
+            favouriteAdapter!!.bindViewModels(musicEntities)
+        }
     }
 }
