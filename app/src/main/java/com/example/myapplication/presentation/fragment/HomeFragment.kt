@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.ImageButton
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +21,7 @@ import com.example.myapplication.presentation.presenter.MusicFinderContrat
 import com.example.myapplication.presentation.presenter.SearchMusicPresenter
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.frangment_menu.view.*
 import java.util.*
 
 
@@ -34,6 +36,7 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
     var musicAdapter: MusicAdapter? = null
     var changeLayoutManager : ImageButton? = null
     var musicDao: MusicDao? = null
+    var emptyTextView : TextView? = null
     val MUSICS_PREFERENCES_KEY: String = "MUSICS_PREFERENCES_KEY"
 
     companion object {
@@ -50,6 +53,8 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
         super.onCreateView(inflater, container, savedInstanceState)
 
         rootView = inflater.inflate(R.layout.frangment_menu, container, false)
+
+        emptyTextView = rootView!!.findViewById(R.id.empty)
 
         progressBar = rootView!!.findViewById(R.id.progress_bar)
 
@@ -137,7 +142,14 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
 
         var musicResponse: MusicFinderResponse? = gson.fromJson(result, MusicFinderResponse::class.java)
 
-        musicResponse?.let { musicAdapter!!.bindViewModels(it) }
+        emptyTextView?.visibility = View.VISIBLE
+        recyclerView?.visibility = View.GONE
+
+        musicResponse?.let {
+            musicAdapter!!.bindViewModels(it)
+            recyclerView?.visibility = View.VISIBLE
+            emptyTextView?.visibility = View.GONE
+        }
     }
 
 
