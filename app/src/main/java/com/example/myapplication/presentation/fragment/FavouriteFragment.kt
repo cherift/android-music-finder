@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
+import com.example.myapplication.data.api.model.Music
 import com.example.myapplication.data.api.model.MusicFinderResponse
 import com.example.myapplication.data.dao.MusicDao
 import com.example.myapplication.data.database.MusicDatabase
@@ -78,11 +79,31 @@ class FavouriteFragment : Fragment(), MusicFinderContrat.View{
         searchMusicPresenter.detachView()
     }
 
-    override fun displayMusicFinded(musicResponse : MusicFinderResponse) {
 
+    /**
+     * Displays  the list of favourite music in the recycler view.
+     * If the list is empty a message view will be displayed.
+     *
+     * @param musicEntities : the list of favourite music entities
+     */
+    override fun displayMusicFounded(musicResponse : MusicFinderResponse) {
+        if (musicResponse.musics.isEmpty()) {
+            emptyTextView?.visibility = View.VISIBLE
+            recyclerView?.visibility = View.GONE
+        }
+        else{
+            emptyTextView?.visibility = View.GONE
+            recyclerView?.visibility = View.VISIBLE
+            favouriteAdapter!!.bindViewModels(musicResponse.musics as List<MusicEntity>)
+        }
     }
 
 
+    /**
+     * Removes a music entity from musics database.
+     *
+     * @param musicEntity : the music to remove
+     */
     override fun addOrRemoveMusicFavorite(musicEntity: MusicEntity) {
         searchMusicPresenter.removeMusicFromFavorite(musicDao!!, musicEntity)
 
@@ -95,22 +116,15 @@ class FavouriteFragment : Fragment(), MusicFinderContrat.View{
     }
 
 
-    override fun listenToMusic() {
+    /**
+     * Reads the music passed as parameter
+     *
+     * @param music : the music to read
+     */
+    override fun listenToMusic(music: Music) {
         activity!!.supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, MusicPlayerFragment.newInstance())
+            .replace(R.id.fragment_container, MusicPlayerFragment.newInstance(music))
             .addToBackStack(null)
             .commit()
-    }
-
-    override fun displayFavouriteMusic(musicEntities : List<MusicEntity>){
-        if (musicEntities.isEmpty()) {
-            emptyTextView?.visibility = View.VISIBLE
-            recyclerView?.visibility = View.GONE
-        }
-        else{
-            emptyTextView?.visibility = View.GONE
-            recyclerView?.visibility = View.VISIBLE
-            favouriteAdapter!!.bindViewModels(musicEntities)
-        }
     }
 }

@@ -1,6 +1,8 @@
 package com.example.myapplication.data.api.service
 
 import com.example.myapplication.data.api.model.MusicFinderResponse
+import com.example.myapplication.data.api.model.MusicReader
+import com.example.myapplication.data.api.model.MusicReaderResponse
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import io.reactivex.Single
@@ -19,7 +21,7 @@ interface MusicFinderService {
     fun searchMusics(@Query("text") text : String) : Single<MusicFinderResponse>
 
     @GET("listen")
-    fun getMusicLink(@Query("artist") artist : String, @Query("title") title : String)
+    fun getMusicReader(@Query("artist") artist : String, @Query("title") title : String) : Single<MusicReaderResponse>
 
     companion object {
         operator fun invoke() : MusicFinderService {

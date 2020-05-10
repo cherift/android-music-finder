@@ -70,7 +70,7 @@ class FavouriteAdapter(val fragmentManager: FavouriteFragment) : RecyclerView.Ad
      * @param position: the position of the music clicked in the list view
      */
     override fun listenMusic(position: Int){
-        fragmentManager.listenToMusic()
+        fragmentManager.listenToMusic(musics[position])
     }
 
     /**

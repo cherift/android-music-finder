@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
+import com.example.myapplication.data.api.model.Music
 import com.example.myapplication.data.api.model.MusicFinderResponse
 import com.example.myapplication.data.dao.MusicDao
 import com.example.myapplication.data.database.MusicDatabase
@@ -175,7 +176,7 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
      *
      * @param musicResponse: the list of musics founded
      */
-    override fun displayMusicFinded(musicResponse : MusicFinderResponse) {
+    override fun displayMusicFounded(musicResponse : MusicFinderResponse) {
         /*save musicResponse founded in musicSaved */
         saveData(musicResponse)
 
@@ -185,6 +186,11 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
     }
 
 
+    /**
+     * Adds a music entity from musics database.
+     *
+     * @param musicEntity : the music to add
+     */
     override fun addOrRemoveMusicFavorite(musicEntity: MusicEntity) {
         searchMusicPresenter.addMusicToFavorite(musicDao!!, musicEntity)
 
@@ -197,12 +203,16 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
     }
 
 
-    override fun listenToMusic() {
-
-    }
-
-    override fun displayFavouriteMusic(musicEntities : List<MusicEntity>){
-        
+    /**
+     * Reads the music passed as parameter
+     *
+     * @param music : the music to read
+     */
+    override fun listenToMusic(music: Music) {
+        activity!!.supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, MusicPlayerFragment.newInstance(music))
+            .addToBackStack(null)
+            .commit()
     }
 
 }

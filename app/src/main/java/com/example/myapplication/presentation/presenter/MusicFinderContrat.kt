@@ -1,30 +1,62 @@
 package com.example.myapplication.presentation.presenter
 
+import com.example.myapplication.data.api.model.Music
 import com.example.myapplication.data.api.model.MusicFinderResponse
+import com.example.myapplication.data.api.model.MusicReader
+import com.example.myapplication.data.api.model.MusicReaderResponse
 import com.example.myapplication.data.entity.MusicEntity
+import io.reactivex.disposables.CompositeDisposable
 
 
 interface MusicFinderContrat {
 
-    interface Presenter {
+    abstract class Presenter<V> {
 
-        fun attachView(view: View)
+        var view : V? = null
+        var compositeDisposable : CompositeDisposable? = null
 
-        fun detachView()
+        init {
+            compositeDisposable = CompositeDisposable()
+        }
 
-        fun cancelSubscription()
+        /**
+         * Attaches view in the presenter.
+         */
+        fun attachView(view: V) {
+            this.view = view
+        }
+
+        /**
+         * Clears the composite disposable.
+         */
+        fun cancelSubscription() {
+            compositeDisposable!!.clear()
+        }
+
+        /**
+         * Makes the composite disposable disposing.
+         */
+        fun detachView() {
+            compositeDisposable!!.dispose()
+            view = null
+        }
 
     }
 
     interface View {
 
-        fun displayMusicFinded(musicResponse : MusicFinderResponse)
+        fun displayMusicFounded(musicResponse : MusicFinderResponse)
 
         fun addOrRemoveMusicFavorite(musicEntity: MusicEntity)
 
-        fun listenToMusic()
+        fun listenToMusic(music: Music)
+    }
 
-        fun displayFavouriteMusic(musicEntities : List<MusicEntity>)
+    interface ReaderView {
+
+        fun displayMusicFounded(musicResponse: MusicReaderResponse)
+
+        fun listenToMusic(musicReader: MusicReader)
     }
 
 }

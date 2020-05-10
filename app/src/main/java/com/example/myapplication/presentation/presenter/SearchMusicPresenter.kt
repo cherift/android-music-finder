@@ -1,5 +1,6 @@
 package com.example.myapplication.presentation.presenter
 
+import com.example.myapplication.data.api.model.Music
 import com.example.myapplication.presentation.repository.remote.MusicFinderDataRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -11,15 +12,13 @@ import com.example.myapplication.data.entity.MusicEntity
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.subscribers.ResourceSubscriber
 
-class SearchMusicPresenter : MusicFinderContrat.Presenter {
+class SearchMusicPresenter : MusicFinderContrat.Presenter<MusicFinderContrat.View>() {
 
-    var view : MusicFinderContrat.View? = null
-    var compositeDisposable : CompositeDisposable? = null
-
-    init {
-        compositeDisposable = CompositeDisposable()
-    }
-
+    /**
+     * Looks for music having lyrics corresponding to the text passed as parameter.
+     *
+     * @param text: the text to look for in the lyric
+     */
     fun searchMusic(text: String){
         val compositeDisposable : CompositeDisposable = CompositeDisposable()
 
@@ -32,7 +31,7 @@ class SearchMusicPresenter : MusicFinderContrat.Presenter {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : DisposableSingleObserver<MusicFinderResponse>() {
                 override fun onSuccess(musics : MusicFinderResponse) {
-                    view?.displayMusicFinded(musics)
+                    view?.displayMusicFounded(musics)
                 }
 
                 override fun onError(e: Throwable) {
@@ -42,6 +41,12 @@ class SearchMusicPresenter : MusicFinderContrat.Presenter {
         )
     }
 
+    /**
+     * Adds a music in the database.
+     *
+     * @param musicDao : the music DAO model
+     * @param musicEntity : the music entity
+     */
     fun addMusicToFavorite(musicDao: MusicDao, musicEntity: MusicEntity) {
         val compositeDisposable : CompositeDisposable = CompositeDisposable()
 
@@ -63,7 +68,12 @@ class SearchMusicPresenter : MusicFinderContrat.Presenter {
         )
     }
 
-
+    /**
+     * Removes a music in the database.
+     *
+     * @param musicDao : the music DAO model
+     * @param musicEntity : the music entity
+     */
     fun removeMusicFromFavorite(musicDao: MusicDao, musicEntity: MusicEntity) {
         val compositeDisposable : CompositeDisposable = CompositeDisposable()
 
@@ -87,7 +97,11 @@ class SearchMusicPresenter : MusicFinderContrat.Presenter {
     }
 
 
-
+    /**
+     * Gets all musics saved in database.
+     *
+     * @param musicDao : the music DAO model
+     */
     fun getFavouriteMusics(musicDao: MusicDao){
         val compositeDisposable : CompositeDisposable = CompositeDisposable()
 
@@ -99,7 +113,10 @@ class SearchMusicPresenter : MusicFinderContrat.Presenter {
             .subscribeWith(object : ResourceSubscriber<List<MusicEntity>>() {
 
                 override fun onNext(musics : List<MusicEntity>) {
-                    view?.displayFavouriteMusic(musics)
+
+                    val musicFinderResponse : MusicFinderResponse = MusicFinderResponse(musics as List<Music>)
+
+                    view?.displayMusicFounded(musicFinderResponse)
                 }
 
                 override fun onComplete() {
@@ -111,19 +128,5 @@ class SearchMusicPresenter : MusicFinderContrat.Presenter {
                 }
             })
         )
-    }
-
-
-    override fun attachView(view: MusicFinderContrat.View ) {
-        this.view = view
-    }
-
-    override fun cancelSubscription() {
-        compositeDisposable!!.clear()
-    }
-
-    override fun detachView() {
-        compositeDisposable!!.dispose()
-        view = null
     }
 }
