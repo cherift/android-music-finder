@@ -35,7 +35,7 @@ interface MusicFinderService {
                 .build()
 
             return Retrofit.Builder()
-                .baseUrl("http://lyrics-extractor.herokuapp.com/")
+                .baseUrl("https://lyrics-extractor.herokuapp.com/")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(Gson()))
