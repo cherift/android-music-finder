@@ -81,12 +81,12 @@ class MusicPlayerFragment(val music: Music) : Fragment(), MusicFinderContrat.Rea
 
                 try {
                     mediaPlayer!!.setDataSource(musicReader!!.preview)
-                    mediaPlayer!!.prepareAsync()
                 }
                 catch (e: Exception){
                     println("Setting music data source failed because of : ${e.message}")
                 }
 
+                mediaPlayer!!.prepareAsync()
                 mediaPlayer!!.setOnPreparedListener( object : MediaPlayer.OnPreparedListener {
                     override fun onPrepared(mp: MediaPlayer?) {
                         mp?.start()

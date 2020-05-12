@@ -181,6 +181,7 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
         saveData(musicResponse)
 
         /*displays the result in the list view*/
+        emptyTextView?.visibility = View.GONE
         progressBar!!.visibility = View.GONE
         musicAdapter!!.bindViewModels(musicResponse)
     }
