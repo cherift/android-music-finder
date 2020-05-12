@@ -13,9 +13,9 @@ import io.reactivex.schedulers.Schedulers
 class ReadMusicPresenter : MusicFinderContrat.Presenter<MusicFinderContrat.ReaderView>() {
 
     /**
-     * Looks for music having lyrics corresponding to the text passed as parameter.
+     * Looks for music song url.
      *
-     * @param text: the text to look for in the lyric
+     * @param music: the music to read
      */
     fun getMusicReader(music: Music){
         val compositeDisposable : CompositeDisposable = CompositeDisposable()

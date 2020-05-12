@@ -1,6 +1,9 @@
 package com.example.myapplication.presentation.fragment
 
+
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.HandlerThread
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +25,8 @@ class MusicPlayerFragment(val music: Music) : Fragment(), MusicFinderContrat.Rea
     var authorView : TextView? = null
     var titleView : TextView? = null
     var thumbnailView: ImageView? = null
+    var playButton: ImageView? = null
+    var mediaPlayer: MediaPlayer? = null
 
     companion object {
         val readMusicPresenter : ReadMusicPresenter = ReadMusicPresenter()
@@ -39,6 +44,9 @@ class MusicPlayerFragment(val music: Music) : Fragment(), MusicFinderContrat.Rea
         authorView = rootView!!.findViewById(R.id.auhtor)
         titleView = rootView!!.findViewById(R.id.title)
         thumbnailView = rootView!!.findViewById(R.id.thumbnail)
+        playButton = rootView!!.findViewById(R.id.playButton)
+
+        mediaPlayer = MediaPlayer()
 
         return rootView
     }
@@ -60,14 +68,39 @@ class MusicPlayerFragment(val music: Music) : Fragment(), MusicFinderContrat.Rea
         musicReader = musicResponse.musicReader
 
         authorView!!.text = musicReader!!.author
+        println("je suis ici image ${musicReader!!.image}")
+        println("je suis ici preview ${musicReader!!.preview}")
         titleView!!.text = musicReader!!.title
         Glide.with(rootView!!)
             .load(musicReader!!.image)
             .into(thumbnailView!!)
+
+        playButton!!.setOnClickListener(object : View.OnClickListener {
+
+            override fun onClick(v: View?) {
+
+                try {
+                    mediaPlayer!!.setDataSource(musicReader!!.preview)
+                    mediaPlayer!!.prepareAsync()
+                }
+                catch (e: Exception){
+                    println("Setting music data source failed because of : ${e.message}")
+                }
+
+                mediaPlayer!!.setOnPreparedListener( object : MediaPlayer.OnPreparedListener {
+                    override fun onPrepared(mp: MediaPlayer?) {
+                        mp?.start()
+                    }
+                })
+
+            }
+
+        })
+
     }
 
     /**
-     * Allows to read the music
+     * Allows to read the music.
      *
      * @param musicReader : the music to read
      */
