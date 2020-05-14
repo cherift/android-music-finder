@@ -31,13 +31,12 @@ class MusicPlayerFragment(val music: Music) : Fragment(), MusicFinderContrat.Rea
     var prevButton: ImageView? = null
     var nextButton: ImageView? = null
     var closeButton: ImageView? = null
-    var mediaPlayer: MediaPlayer? = null
     var progressBar: SeekBar? = null
     var musicDuration: Int = 0
 
     companion object {
         val readMusicPresenter : ReadMusicPresenter = ReadMusicPresenter()
-
+        val mediaPlayer : MediaPlayer = MediaPlayer()
         fun newInstance(music: Music) : MusicPlayerFragment = MusicPlayerFragment(music)
     }
 
@@ -57,7 +56,10 @@ class MusicPlayerFragment(val music: Music) : Fragment(), MusicFinderContrat.Rea
         progressBar = rootView!!.findViewById(R.id.progressBar)
         closeButton = rootView!!.findViewById(R.id.close_window)
 
-        mediaPlayer = MediaPlayer()
+        // Resets music if another one is playing from another fragment
+        if (mediaPlayer!!.isPlaying) {
+            mediaPlayer!!.reset()
+        }
 
         return rootView
     }
@@ -133,6 +135,7 @@ class MusicPlayerFragment(val music: Music) : Fragment(), MusicFinderContrat.Rea
         closeButton!!.setOnClickListener(object: View.OnClickListener {
 
             override fun onClick(v: View?) {
+                mediaPlayer!!.stop()
                 activity!!.supportFragmentManager!!.popBackStack()
             }
 
