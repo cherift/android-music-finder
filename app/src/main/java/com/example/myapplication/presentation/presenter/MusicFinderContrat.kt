@@ -1,5 +1,6 @@
 package com.example.myapplication.presentation.presenter
 
+import android.media.MediaPlayer
 import com.example.myapplication.data.api.model.Music
 import com.example.myapplication.data.api.model.MusicFinderResponse
 import com.example.myapplication.data.api.model.MusicReader
@@ -56,7 +57,7 @@ interface MusicFinderContrat {
 
         fun displayMusicFounded(musicResponse: MusicReaderResponse)
 
-        fun listenToMusic(musicReader: MusicReader)
+        fun listenToMusic(mp: MediaPlayer)
     }
 
 }
