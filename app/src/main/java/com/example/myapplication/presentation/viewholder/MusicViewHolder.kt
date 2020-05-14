@@ -16,6 +16,7 @@ class MusicViewHolder(val myView: View, musicAction: MusicActionInterface) : Rec
     var title: TextView? = null
     var image: ImageView? = null
     var imageInfo: ImageButton? = null
+    var imageButton: ImageButton? = null
 
 
     /**
@@ -26,6 +27,7 @@ class MusicViewHolder(val myView: View, musicAction: MusicActionInterface) : Rec
         title = myView.findViewById(R.id.title_textview)
         image = myView.findViewById(R.id.icon_imageview)
         imageInfo = myView.findViewById(R.id.info_button)
+        imageButton = myView.findViewById(R.id.image_button)
 
         imageInfo!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
@@ -33,6 +35,16 @@ class MusicViewHolder(val myView: View, musicAction: MusicActionInterface) : Rec
 
                 if (position != RecyclerView.NO_POSITION) {
                     musicAction.onFavoriteToggle(position)
+                }
+            }
+        })
+
+        imageButton!!.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                val position : Int = adapterPosition
+
+                if (position != RecyclerView.NO_POSITION) {
+                    musicAction.listenMusic(position)
                 }
             }
         })

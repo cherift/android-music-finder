@@ -135,7 +135,7 @@ class MusicPlayerFragment(val music: Music) : Fragment(), MusicFinderContrat.Rea
         closeButton!!.setOnClickListener(object: View.OnClickListener {
 
             override fun onClick(v: View?) {
-                mediaPlayer!!.stop()
+                mediaPlayer!!.reset()
                 activity!!.supportFragmentManager!!.popBackStack()
             }
 
