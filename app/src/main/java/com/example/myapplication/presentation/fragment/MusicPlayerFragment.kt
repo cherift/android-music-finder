@@ -4,7 +4,6 @@ package com.example.myapplication.presentation.fragment
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
-import android.os.HandlerThread
 import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +30,7 @@ class MusicPlayerFragment(val music: Music) : Fragment(), MusicFinderContrat.Rea
     var playButton: ImageView? = null
     var prevButton: ImageView? = null
     var nextButton: ImageView? = null
+    var closeButton: ImageView? = null
     var mediaPlayer: MediaPlayer? = null
     var progressBar: SeekBar? = null
     var musicDuration: Int = 0
@@ -55,6 +55,7 @@ class MusicPlayerFragment(val music: Music) : Fragment(), MusicFinderContrat.Rea
         prevButton = rootView!!.findViewById(R.id.prevButton)
         nextButton = rootView!!.findViewById(R.id.nextButton)
         progressBar = rootView!!.findViewById(R.id.progressBar)
+        closeButton = rootView!!.findViewById(R.id.close_window)
 
         mediaPlayer = MediaPlayer()
 
@@ -124,6 +125,15 @@ class MusicPlayerFragment(val music: Music) : Fragment(), MusicFinderContrat.Rea
                 var progress: Int =  if ((progressBar!!.progress + 5000) > musicDuration) musicDuration else progressBar!!.progress + 5000
                 progressBar!!.progress = progress
                 mediaPlayer!!.seekTo(progress)
+            }
+
+        })
+
+        //when button close is pressed
+        closeButton!!.setOnClickListener(object: View.OnClickListener {
+
+            override fun onClick(v: View?) {
+                activity!!.supportFragmentManager!!.popBackStack()
             }
 
         })

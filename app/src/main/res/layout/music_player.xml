@@ -7,6 +7,15 @@
     android:background="@color/colorPrimaryDark">
 
     <ImageView
+        android:id="@+id/close_window"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/close_window"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="15dp"/>
+
+    <ImageView
         android:id="@+id/thumbnail"
         android:layout_width="203dp"
         android:layout_height="200dp"
