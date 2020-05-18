@@ -6,9 +6,10 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 
-class InternetDialogFragment : AppCompatDialogFragment() {
+class InternetDialogFragment(val fragment: Fragment) : AppCompatDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -18,7 +19,8 @@ class InternetDialogFragment : AppCompatDialogFragment() {
             .setPositiveButton("OK",
                 DialogInterface.OnClickListener { dialog, _ ->
                     dialog.dismiss()
-                    activity!!.supportFragmentManager!!.popBackStack()
+                    if (fragment is MusicPlayerFragment)
+                        activity!!.supportFragmentManager.popBackStack()
                 })
         return builder.create()
     }

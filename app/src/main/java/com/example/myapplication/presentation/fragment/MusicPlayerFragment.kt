@@ -213,7 +213,7 @@ class MusicPlayerFragment(val music: Music) : Fragment(), MusicFinderContrat.Rea
      * Displays an error when searching failed.
      */
     override fun displayError() {
-        val dialog: InternetDialogFragment = InternetDialogFragment()
+        val dialog: InternetDialogFragment = InternetDialogFragment(this)
         dialog.show(fragmentManager, "No Internet Dialog")
     }
 

@@ -222,7 +222,7 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
     override fun displayError() {
         progressBar!!.visibility = View.GONE
 
-        val dialog: InternetDialogFragment = InternetDialogFragment()
+        val dialog: InternetDialogFragment = InternetDialogFragment(this)
         dialog.show(fragmentManager, "No Internet Dialog")
     }
 
