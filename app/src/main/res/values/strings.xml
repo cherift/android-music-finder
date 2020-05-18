@@ -4,4 +4,13 @@
     <string name="music_removed" formatted="false">%1$s - %2$s has been removed from your favourites.</string>
     <string name="no_internet">No result found ! \nBe sure you are connected to internet !</string>
     <string name="error">Error</string>
+    <string name="tromm_name">TROUVE MA MUSIQUE</string>
+    <string name="tromm_descripiton">
+        TROOM, called TROuve Ma Musique in French and means Find My Music,
+        is an application that allows you to find your music using a few words of the lyrics.
+    </string>
+    <string name="github_link">
+        The project is open source and you can find it
+        <a href="https://github.com/cherift/android-music-finder">here</a>.
+    </string>
 </resources>
