@@ -33,7 +33,7 @@ class ReadMusicPresenter : MusicFinderContrat.Presenter<MusicFinderContrat.Reade
                 }
 
                 override fun onError(e: Throwable) {
-                    println(e.message)
+                    view?.displayError()
                 }
             })
         )

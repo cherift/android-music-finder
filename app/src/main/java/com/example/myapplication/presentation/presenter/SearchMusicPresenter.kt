@@ -35,7 +35,7 @@ class SearchMusicPresenter : MusicFinderContrat.Presenter<MusicFinderContrat.Vie
                 }
 
                 override fun onError(e: Throwable) {
-                    println(e.message)
+                    view?.displayError()
                 }
             })
         )

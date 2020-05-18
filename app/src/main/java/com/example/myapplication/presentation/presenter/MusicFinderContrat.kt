@@ -51,6 +51,8 @@ interface MusicFinderContrat {
         fun addOrRemoveMusicFavorite(musicEntity: MusicEntity)
 
         fun listenToMusic(music: Music)
+
+        fun displayError()
     }
 
     interface ReaderView {
@@ -58,6 +60,8 @@ interface MusicFinderContrat {
         fun displayMusicFounded(musicResponse: MusicReaderResponse)
 
         fun listenToMusic(mp: MediaPlayer)
+
+        fun displayError()
     }
 
 }

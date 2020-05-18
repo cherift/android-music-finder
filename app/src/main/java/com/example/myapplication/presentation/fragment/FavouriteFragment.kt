@@ -127,4 +127,11 @@ class FavouriteFragment : Fragment(), MusicFinderContrat.View{
             .addToBackStack(null)
             .commit()
     }
+
+    /**
+     * This functin must show an error because of not internet connection detected.
+     *
+     * But this fragment does not need this so it will return Unit
+     */
+    override fun displayError() = Unit
 }

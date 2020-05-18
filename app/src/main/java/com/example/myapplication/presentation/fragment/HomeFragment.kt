@@ -216,4 +216,14 @@ class HomeFragment : Fragment(), MusicFinderContrat.View {
             .commit()
     }
 
+    /**
+     * Displays an error when searching failed.
+     */
+    override fun displayError() {
+        progressBar!!.visibility = View.GONE
+
+        val dialog: InternetDialogFragment = InternetDialogFragment()
+        dialog.show(fragmentManager, "No Internet Dialog")
+    }
+
 }
